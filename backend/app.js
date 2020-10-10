@@ -7,8 +7,13 @@ const mongoose = require('mongoose');
 
 const stuffRoutes = require('./routes/stuff');
 const userRoutes = require('./routes/user');
+const pageRoutes = require('./routes/pages');
 
 const app = express();
+
+app.set('view engine', 'ejs');
+//app.set('views', __dirname, ' /views');
+app.use(express.static('./public'));
 
 mongoose.connect('mongodb+srv://will1:will1@cluster0.f9xlu.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true})
     .then(() => {
@@ -31,6 +36,7 @@ app.use(bodyParser.json());
 
 app.use('/api/stuff', stuffRoutes);
 app.use('/api/auth', userRoutes);
+app.use('/', pageRoutes);
 
 
 
