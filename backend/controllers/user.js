@@ -1,30 +1,25 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const user = require('../models/user');
 const User = require('../models/user');
 
 exports.signup = (req, res, next) => {
-    bcrypt.hash(req.body.password, 10).then(
-        (hash) => {
-            const user = new User({
-                email: req.body.email,
-                password: hash
-            })
-            user.save().then(
-                () => {
-                    res.status(201).json({
-                        message: 'User added successullfy!'
-                    })
-                }
-            ).catch(
+    const user = new User({
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        password: req.body.password
+    });
+            user.save()
+                .then(() => res.status(201).redirect('/index'))
+                .catch(
                 (error) => {
                     res.status(500).json({
                         error: error
                     })
                 }
             )
-        }
-    )
+        //}
+    //)
 }
 
 exports.login = (req, res, next) => {
@@ -67,3 +62,14 @@ exports.login = (req, res, next) => {
         }
     )
 }
+
+
+// to hash signup
+/*bcrypt.hash(req.body.password, 10).then(
+    (hash) => {
+        const user = new User({
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            email: req.body.email,
+            password: hash
+        })*/
